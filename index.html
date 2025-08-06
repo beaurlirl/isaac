@@ -15,10 +15,10 @@
             
             <!-- Desktop Navigation -->
             <div class="nav-links desktop-nav">
-                <a href="#series" class="nav-link">series</a>
-                <a href="#film" class="nav-link">film</a>
-                <a href="#video" class="nav-link">video</a>
-                <a href="#contact" class="nav-link">contact</a>
+                <a data-target="series" class="nav-link">series</a>
+                <a data-target="film" class="nav-link">film</a>
+                <a data-target="video" class="nav-link">video</a>
+                <a data-target="contact" class="nav-link">contact</a>
             </div>
             
             <!-- Mobile Menu Button -->
@@ -31,121 +31,154 @@
         
         <!-- Mobile Navigation -->
         <div class="mobile-nav" id="mobileNav">
-            <a href="#series" class="nav-link">series</a>
-            <a href="#film" class="nav-link">film</a>
-            <a href="#video" class="nav-link">video</a>
-            <a href="#contact" class="nav-link">contact</a>
+            <a data-target="series" class="nav-link">series</a>
+            <a data-target="film" class="nav-link">film</a>
+            <a data-target="video" class="nav-link">video</a>
+            <a data-target="contact" class="nav-link">contact</a>
         </div>
     </header>
 
     <main>
-        <!-- Hero Section -->
-        <section class="hero" id="home">
-            <div class="hero-content">
-                <div class="hero-image-container">
-                    <div class="hero-image-slider" id="heroSlider">
-                        <div class="hero-slide active">
-                            <img src="ISAAC1.JPG" alt="Rainy Sunday - Manhattan, NYC">
-                        </div>
-                        <div class="hero-slide">
-                            <img src="ISAAC1.JPG" alt="Street Film - Brooklyn, NYC">
-                        </div>
-                        <div class="hero-slide">
-                            <img src="ISAAC1.JPG" alt="City Rhythms - Queens, NYC">
-                        </div>
-                        <div class="hero-slide">
-                            <img src="ISAAC1.JPG" alt="Night Scenes - Manhattan, NYC">
-                        </div>
-                        <div class="hero-slide">
-                            <img src="ISAAC1.JPG" alt="Analog Dreams - Bronx, NYC">
+        <!-- Homepage - Full Screen Slider -->
+        <section class="page active" id="homepage">
+            <div class="fullscreen-slider">
+                <div class="slider-content">
+                    <div class="slider-image-container">
+                        <div class="slider-images" id="sliderImages">
+                            <div class="slider-slide active" data-type="series" data-target="series">
+                                <img src="ISAAC1.JPG" alt="Photography Series">
+                            </div>
+                            <div class="slider-slide" data-type="film" data-target="film">
+                                <img src="ISAAC1.JPG" alt="Film Photography">
+                            </div>
+                            <div class="slider-slide" data-type="video" data-target="video">
+                                <img src="ISAAC1.JPG" alt="Video Content">
+                            </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="hero-text">
-                    <h2 class="hero-title" id="heroTitle">"RAINY SUNDAY"</h2>
-                    <p class="hero-location" id="heroLocation">Manhattan, NYC</p>
-                    <div class="hero-nav">
-                        <button class="nav-arrow" id="prevBtn"></button>
-                        <button class="nav-arrow" id="nextBtn"></button>
+                    <div class="slider-text">
+                        <div class="section-indicator" id="sectionIndicator">Section 1</div>
+                        <h1 class="slider-title" id="sliderTitle">"RAINY SUNDAY"</h1>
+                        <p class="slider-location" id="sliderLocation">Manhattan, NYC</p>
+                        <div class="slider-navigation">
+                            <button class="slider-arrow" id="prevSlide">←</button>
+                            <button class="slider-arrow" id="nextSlide">→</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Series Section -->
-        <section class="content-section" id="series">
-            <h2>Series</h2>
-            <div class="gallery">
-                <div class="gallery-item" data-collection="rainy-sunday-series">
-                    <img src="ISAAC1.JPG" alt="Rainy Sunday Series">
-                    <div class="gallery-content">
-                        <h3>"Rainy Sunday"</h3>
+        <!-- Series Page -->
+        <section class="page" id="series">
+            <div class="page-header">
+                <button class="back-btn" data-target="homepage">← Back</button>
+                <h1>Series</h1>
+            </div>
+            <div class="series-grid">
+                <div class="series-preview" data-series="rainy-sunday">
+                    <div class="preview-image">
+                        <img src="ISAAC1.JPG" alt="Rainy Sunday Series">
+                    </div>
+                    <div class="preview-info">
+                        <h2>"Rainy Sunday"</h2>
                         <p>Manhattan, NYC</p>
-                        <span class="collection-type">Photography Series</span>
+                        <span class="photo-count">12 Photos</span>
                     </div>
                 </div>
-                <div class="gallery-item" data-collection="night-scenes-series">
-                    <img src="ISAAC1.JPG" alt="Night Scenes Series">
-                    <div class="gallery-content">
-                        <h3>"Night Scenes"</h3>
+                <div class="series-preview" data-series="night-scenes">
+                    <div class="preview-image">
+                        <img src="ISAAC1.JPG" alt="Night Scenes Series">
+                    </div>
+                    <div class="preview-info">
+                        <h2>"Night Scenes"</h2>
                         <p>Manhattan, NYC</p>
-                        <span class="collection-type">Photography Series</span>
+                        <span class="photo-count">8 Photos</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Film Section -->
-        <section class="content-section" id="film">
-            <h2>Film</h2>
-            <div class="gallery">
-                <div class="gallery-item" data-collection="street-film">
-                    <img src="ISAAC1.JPG" alt="Street Film Collection">
-                    <div class="gallery-content">
-                        <h3>"Street Film"</h3>
-                        <p>Brooklyn, NYC</p>
-                        <span class="collection-type">Analog Film</span>
+        <!-- Film Page -->
+        <section class="page" id="film">
+            <div class="page-header">
+                <button class="back-btn" data-target="homepage">← Back</button>
+                <h1>Film</h1>
+            </div>
+            <div class="film-grid">
+                <div class="film-photo" data-collection="street-scenes">
+                    <img src="ISAAC1.JPG" alt="Street Scenes">
+                    <div class="photo-info">
+                        <h3>"Street Scenes"</h3>
+                        <p>Brooklyn, NYC • 35mm Film</p>
+                        <span class="collection-indicator">5 Photos</span>
                     </div>
                 </div>
-                <div class="gallery-item" data-collection="analog-dreams-film">
-                    <img src="ISAAC1.JPG" alt="Analog Dreams Collection">
-                    <div class="gallery-content">
+                <div class="film-photo single" data-photo="urban-portrait">
+                    <img src="ISAAC1.JPG" alt="Urban Portrait">
+                    <div class="photo-info">
+                        <h3>"Urban Portrait"</h3>
+                        <p>Manhattan, NYC • Medium Format</p>
+                    </div>
+                </div>
+                <div class="film-photo" data-collection="analog-dreams">
+                    <img src="ISAAC1.JPG" alt="Analog Dreams">
+                    <div class="photo-info">
                         <h3>"Analog Dreams"</h3>
-                        <p>Bronx, NYC</p>
-                        <span class="collection-type">35mm Film</span>
+                        <p>Queens, NYC • 35mm Film</p>
+                        <span class="collection-indicator">7 Photos</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Video Section -->
-        <section class="content-section" id="video">
-            <h2>Video</h2>
-            <div class="video-gallery">
-                <div class="video-item" data-collection="city-rhythms-video">
-                    <div class="video-thumbnail">
-                        <img src="ISAAC1.JPG" alt="City Rhythms Video">
-                        <div class="play-button">▶</div>
+        <!-- Video Page -->
+        <section class="page" id="video">
+            <div class="page-header">
+                <button class="back-btn" data-target="homepage">← Back</button>
+                <h1>Video</h1>
+            </div>
+            <div class="video-grid">
+                <div class="video-item">
+                    <div class="video-container">
+                        <img src="ISAAC1.JPG" alt="City Rhythms Video Thumbnail">
+                        <div class="video-play-btn">▶</div>
                     </div>
-                    <div class="gallery-content">
+                    <div class="video-info">
                         <h3>"City Rhythms"</h3>
-                        <p>Queens, NYC</p>
-                        <span class="collection-type">Documentary Video</span>
+                        <p>Documentary • 3:42</p>
+                        <span class="video-description">A visual exploration of NYC street life</span>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <div class="video-container">
+                        <img src="ISAAC1.JPG" alt="Night Stories Video Thumbnail">
+                        <div class="video-play-btn">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <h3>"Night Stories"</h3>
+                        <p>Short Film • 5:18</p>
+                        <span class="video-description">After-dark moments in the city</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section class="content-section" id="contact">
-            <h2>Contact</h2>
-            <div class="contact-info">
-                <p>For inquiries and collaborations:</p>
-                <p><a href="mailto:isaac@isaacmariano.com">isaac@isaacmariano.com</a></p>
-                <div class="social-links">
-                    <a href="#" target="_blank">Instagram</a>
-                    <a href="#" target="_blank">Behance</a>
+        <!-- Contact Page -->
+        <section class="page" id="contact">
+            <div class="page-header">
+                <button class="back-btn" data-target="homepage">← Back</button>
+                <h1>Contact</h1>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>Get in touch</h2>
+                    <p>For inquiries and collaborations:</p>
+                    <a href="mailto:isaac@isaacmariano.com" class="email-link">isaac@isaacmariano.com</a>
+                    <div class="social-links">
+                        <a href="#" target="_blank">Instagram</a>
+                        <a href="#" target="_blank">Behance</a>
+                    </div>
                 </div>
             </div>
         </section>

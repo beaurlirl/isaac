@@ -1,11 +1,103 @@
-// Mobile menu functionality
+// Page Navigation System
 document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu functionality
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileNav = document.getElementById('mobileNav');
     const navLinks = document.querySelectorAll('.nav-link');
     
-    // Toggle mobile menu
-    mobileMenuBtn.addEventListener('click', function() {
+    // Page elements
+    const pages = document.querySelectorAll('.page');
+    const sliderImages = document.getElementById('sliderImages');
+    const sliderTitle = document.getElementById('sliderTitle');
+    const sliderLocation = document.getElementById('sliderLocation');
+    const sectionIndicator = document.getElementById('sectionIndicator');
+    const prevSlideBtn = document.getElementById('prevSlide');
+    const nextSlideBtn = document.getElementById('nextSlide');
+    
+    // Slider data
+    const sliderData = [
+        {
+            type: 'series',
+            target: 'series',
+            title: '"RAINY SUNDAY"',
+            location: 'Manhattan, NYC',
+            section: 'Section 1'
+        },
+        {
+            type: 'film',
+            target: 'film',
+            title: '"STREET FILM"',
+            location: 'Brooklyn, NYC',
+            section: 'Section 2'
+        },
+        {
+            type: 'video',
+            target: 'video',
+            title: '"CITY RHYTHMS"',
+            location: 'Queens, NYC',
+            section: 'Section 3'
+        }
+    ];
+    
+    let currentSlide = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    // Page Navigation Functions
+    function showPage(pageId) {
+        // Hide all pages
+        pages.forEach(page => page.classList.remove('active'));
+        
+        // Show target page
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) {
+            targetPage.classList.add('active');
+        }
+        
+        // Update navigation active state
+        navLinks.forEach(link => link.classList.remove('active'));
+        const activeNavLink = document.querySelector(`[data-target="${pageId}"]`);
+        if (activeNavLink) {
+            activeNavLink.classList.add('active');
+        }
+        
+        // Close mobile menu if open
+        if (mobileNav.classList.contains('active')) {
+            toggleMobileMenu();
+        }
+    }
+    
+    // Slider Functions
+    function updateSlider(slideIndex) {
+        // Update slider images
+        const slides = document.querySelectorAll('.slider-slide');
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[slideIndex].classList.add('active');
+        
+        // Update text content
+        const currentData = sliderData[slideIndex];
+        sliderTitle.textContent = currentData.title;
+        sliderLocation.textContent = currentData.location;
+        sectionIndicator.textContent = currentData.section;
+        
+        // Store target for click navigation
+        sliderTitle.setAttribute('data-target', currentData.target);
+        
+        currentSlide = slideIndex;
+    }
+    
+    function nextSlide() {
+        const nextIndex = (currentSlide + 1) % sliderData.length;
+        updateSlider(nextIndex);
+    }
+    
+    function prevSlide() {
+        const prevIndex = (currentSlide - 1 + sliderData.length) % sliderData.length;
+        updateSlider(prevIndex);
+    }
+    
+    // Mobile Menu Functions
+    function toggleMobileMenu() {
         mobileNav.classList.toggle('active');
         
         // Animate hamburger menu
@@ -19,176 +111,73 @@ document.addEventListener('DOMContentLoaded', function() {
             spans[1].style.opacity = '1';
             spans[2].style.transform = 'none';
         }
-    });
+    }
     
-    // Close mobile menu when clicking on nav links
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            mobileNav.classList.remove('active');
-            const spans = mobileMenuBtn.querySelectorAll('span');
-            spans[0].style.transform = 'none';
-            spans[1].style.opacity = '1';
-            spans[2].style.transform = 'none';
-        });
-    });
+    // Event Listeners
     
-    // Smooth scrolling for navigation links
+    // Mobile menu toggle
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+    }
+    
+    // Navigation links
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 80; // Account for fixed navbar
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
+            const targetPage = this.getAttribute('data-target');
+            if (targetPage) {
+                showPage(targetPage);
             }
         });
     });
     
-    // Hero image slider functionality
-    const heroSlider = document.getElementById('heroSlider');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    // Indicators removed to match reference design
-    const heroTitle = document.getElementById('heroTitle');
-    const heroLocation = document.getElementById('heroLocation');
-    
-    // Collection data with different types of content
-    const collections = [
-        {
-            id: 'rainy-sunday-series',
-            type: 'series',
-            src: 'ISAAC1.JPG',
-            title: '"RAINY SUNDAY"',
-            location: 'Manhattan, NYC',
-            description: 'Street photography series capturing the mood of NYC on rainy days'
-        },
-        {
-            id: 'street-film',
-            type: 'film',
-            src: 'ISAAC1.JPG',
-            title: '"STREET FILM"',
-            location: 'Brooklyn, NYC',
-            description: 'Analog film photography exploring urban landscapes'
-        },
-        {
-            id: 'city-rhythms-video',
-            type: 'video',
-            src: 'ISAAC1.JPG',
-            title: '"CITY RHYTHMS"',
-            location: 'Queens, NYC',
-            description: 'Video documentary of NYC street life'
-        },
-        {
-            id: 'night-scenes-series',
-            type: 'series',
-            src: 'ISAAC1.JPG',
-            title: '"NIGHT SCENES"',
-            location: 'Manhattan, NYC',
-            description: 'After-dark photography series'
-        },
-        {
-            id: 'analog-dreams-film',
-            type: 'film',
-            src: 'ISAAC1.JPG',
-            title: '"ANALOG DREAMS"',
-            location: 'Bronx, NYC',
-            description: '35mm film collection'
-        }
-    ];
-    
-    let currentSlide = 0;
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    function updateSlide(slideIndex) {
-        // Remove active class from all slides
-        document.querySelectorAll('.hero-slide').forEach(slide => slide.classList.remove('active'));
-        
-        // Add active class to current slide
-        document.querySelectorAll('.hero-slide')[slideIndex].classList.add('active');
-        
-        // Update text content
-        const currentCollection = collections[slideIndex];
-        heroTitle.textContent = currentCollection.title;
-        heroLocation.textContent = currentCollection.location;
-        
-        // Store current collection for click navigation
-        heroTitle.setAttribute('data-collection-id', currentCollection.id);
-        heroTitle.setAttribute('data-collection-type', currentCollection.type);
-        
-        currentSlide = slideIndex;
+    // Slider navigation arrows
+    if (prevSlideBtn) {
+        prevSlideBtn.addEventListener('click', prevSlide);
+    }
+    if (nextSlideBtn) {
+        nextSlideBtn.addEventListener('click', nextSlide);
     }
     
-    function nextSlide() {
-        const nextIndex = (currentSlide + 1) % collections.length;
-        updateSlide(nextIndex);
-    }
-    
-    function prevSlide() {
-        const prevIndex = (currentSlide - 1 + collections.length) % collections.length;
-        updateSlide(prevIndex);
-    }
-    
-    // Add click navigation to collection
-    if (heroTitle) {
-        heroTitle.style.cursor = 'pointer';
-        heroTitle.addEventListener('click', function() {
-            const collectionId = this.getAttribute('data-collection-id');
-            const collectionType = this.getAttribute('data-collection-type');
-            navigateToCollection(collectionId, collectionType);
+    // Slider title click navigation
+    if (sliderTitle) {
+        sliderTitle.addEventListener('click', function() {
+            const targetPage = this.getAttribute('data-target');
+            if (targetPage) {
+                showPage(targetPage);
+            }
         });
     }
     
-    function navigateToCollection(collectionId, collectionType) {
-        // Navigate to the appropriate section based on type
-        let targetSection;
-        switch(collectionType) {
-            case 'series':
-                targetSection = document.getElementById('series');
-                break;
-            case 'film':
-                targetSection = document.getElementById('film');
-                break;
-            case 'video':
-                targetSection = document.getElementById('video');
-                break;
-            default:
-                targetSection = document.getElementById('series');
-        }
-        
-        if (targetSection) {
-            // Smooth scroll to section
-            const offsetTop = targetSection.offsetTop - 80;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
-            
-            // Highlight the specific collection (you can expand this later)
-            console.log(`Navigating to ${collectionType}: ${collectionId}`);
-        }
-    }
+    // Slider image click navigation
+    const sliderSlides = document.querySelectorAll('.slider-slide');
+    sliderSlides.forEach(slide => {
+        slide.addEventListener('click', function() {
+            const targetPage = this.getAttribute('data-target');
+            if (targetPage) {
+                showPage(targetPage);
+            }
+        });
+    });
     
-    // Arrow navigation
-    if (prevBtn && nextBtn) {
-        prevBtn.addEventListener('click', prevSlide);
-        nextBtn.addEventListener('click', nextSlide);
-    }
+    // Back buttons
+    const backBtns = document.querySelectorAll('.back-btn');
+    backBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetPage = this.getAttribute('data-target');
+            if (targetPage) {
+                showPage(targetPage);
+            }
+        });
+    });
     
-    // Indicator navigation removed to match reference design
-    
-    // Touch/swipe functionality
-    if (heroSlider) {
-        heroSlider.addEventListener('touchstart', function(e) {
+    // Touch/swipe functionality for slider
+    if (sliderImages) {
+        sliderImages.addEventListener('touchstart', function(e) {
             touchStartX = e.changedTouches[0].screenX;
         }, { passive: true });
         
-        heroSlider.addEventListener('touchend', function(e) {
+        sliderImages.addEventListener('touchend', function(e) {
             touchEndX = e.changedTouches[0].screenX;
             handleSwipe();
         }, { passive: true });
@@ -197,21 +186,21 @@ document.addEventListener('DOMContentLoaded', function() {
         let isDragging = false;
         let startX = 0;
         
-        heroSlider.addEventListener('mousedown', function(e) {
+        sliderImages.addEventListener('mousedown', function(e) {
             isDragging = true;
             startX = e.clientX;
-            heroSlider.style.cursor = 'grabbing';
+            sliderImages.style.cursor = 'grabbing';
         });
         
-        heroSlider.addEventListener('mousemove', function(e) {
+        sliderImages.addEventListener('mousemove', function(e) {
             if (!isDragging) return;
             e.preventDefault();
         });
         
-        heroSlider.addEventListener('mouseup', function(e) {
+        sliderImages.addEventListener('mouseup', function(e) {
             if (!isDragging) return;
             isDragging = false;
-            heroSlider.style.cursor = 'grab';
+            sliderImages.style.cursor = 'grab';
             
             const endX = e.clientX;
             const diff = startX - endX;
@@ -225,13 +214,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        heroSlider.addEventListener('mouseleave', function() {
+        sliderImages.addEventListener('mouseleave', function() {
             isDragging = false;
-            heroSlider.style.cursor = 'grab';
+            sliderImages.style.cursor = 'grab';
         });
         
         // Set initial cursor
-        heroSlider.style.cursor = 'grab';
+        sliderImages.style.cursor = 'grab';
     }
     
     function handleSwipe() {
@@ -249,67 +238,89 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Auto-slide functionality (optional - uncomment to enable)
-    // setInterval(() => {
-    //     nextSlide();
-    // }, 5000); // Change slide every 5 seconds
+    // Series page functionality
+    const seriesPreviews = document.querySelectorAll('.series-preview');
+    seriesPreviews.forEach(preview => {
+        preview.addEventListener('click', function() {
+            const seriesId = this.getAttribute('data-series');
+            console.log(`Opening series: ${seriesId}`);
+            // Here you would open the full series gallery
+            // For now, we'll just log it
+        });
+    });
     
-    // Add click functionality to gallery items
-    document.querySelectorAll('.gallery-item, .video-item').forEach(item => {
-        item.addEventListener('click', function() {
+    // Film page functionality
+    const filmPhotos = document.querySelectorAll('.film-photo');
+    filmPhotos.forEach(photo => {
+        photo.addEventListener('click', function() {
             const collectionId = this.getAttribute('data-collection');
+            const photoId = this.getAttribute('data-photo');
+            
             if (collectionId) {
-                // Find the collection data
-                const collection = collections.find(c => c.id === collectionId);
-                if (collection) {
-                    console.log(`Opening collection: ${collection.title} (${collection.type})`);
-                    // Here you would open a detailed view of the collection
-                    // For now, we'll just log it
-                }
+                console.log(`Opening film collection: ${collectionId}`);
+                // Here you would open the film collection slider
+            } else if (photoId) {
+                console.log(`Opening single photo: ${photoId}`);
+                // Here you would open the single photo view
             }
         });
     });
     
-    // Add active class to navigation links based on scroll position
-    window.addEventListener('scroll', function() {
-        const sections = document.querySelectorAll('section[id]');
-        const scrollPosition = window.scrollY + 100;
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
-            
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === '#' + sectionId) {
-                        link.classList.add('active');
-                    }
-                });
-            }
+    // Video page functionality
+    const videoItems = document.querySelectorAll('.video-item');
+    videoItems.forEach(video => {
+        video.addEventListener('click', function() {
+            console.log('Playing video');
+            // Here you would implement video playback
         });
     });
     
     // Close mobile menu when clicking outside
     document.addEventListener('click', function(e) {
-        if (!mobileMenuBtn.contains(e.target) && !mobileNav.contains(e.target)) {
-            mobileNav.classList.remove('active');
-            const spans = mobileMenuBtn.querySelectorAll('span');
-            spans[0].style.transform = 'none';
-            spans[1].style.opacity = '1';
-            spans[2].style.transform = 'none';
+        if (mobileMenuBtn && mobileNav && 
+            !mobileMenuBtn.contains(e.target) && 
+            !mobileNav.contains(e.target)) {
+            if (mobileNav.classList.contains('active')) {
+                toggleMobileMenu();
+            }
         }
     });
     
     // Resize handler to close mobile menu on desktop
     window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
-            mobileNav.classList.remove('active');
-            const spans = mobileMenuBtn.querySelectorAll('span');
-            spans[0].style.transform = 'none';
-            spans[1].style.opacity = '1';
-            spans[2].style.transform = 'none';
+        if (window.innerWidth > 768 && mobileNav && mobileNav.classList.contains('active')) {
+            toggleMobileMenu();
         }
     });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        const currentPage = document.querySelector('.page.active');
+        
+        if (currentPage && currentPage.id === 'homepage') {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const targetPage = sliderTitle.getAttribute('data-target');
+                if (targetPage) {
+                    showPage(targetPage);
+                }
+            }
+        }
+        
+        // ESC key to go back to homepage from any page
+        if (e.key === 'Escape' && currentPage && currentPage.id !== 'homepage') {
+            e.preventDefault();
+            showPage('homepage');
+        }
+    });
+    
+    // Initialize the page
+    updateSlider(0);
+    showPage('homepage');
 }); 
