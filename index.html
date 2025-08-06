@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isaac Mariano - Photographer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>ISAAC MARIANO</h1>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links desktop-nav">
+                <a href="#series" class="nav-link">series</a>
+                <a href="#film" class="nav-link">film</a>
+                <a href="#video" class="nav-link">video</a>
+                <a href="#contact" class="nav-link">contact</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+        
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav" id="mobileNav">
+            <a href="#series" class="nav-link">series</a>
+            <a href="#film" class="nav-link">film</a>
+            <a href="#video" class="nav-link">video</a>
+            <a href="#contact" class="nav-link">contact</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <div class="hero-image-container">
+                    <div class="hero-image-slider" id="heroSlider">
+                        <div class="hero-slide active">
+                            <img src="ISAAC1.JPG" alt="Rainy Sunday - Manhattan, NYC">
+                        </div>
+                        <div class="hero-slide">
+                            <img src="ISAAC1.JPG" alt="Street Film - Brooklyn, NYC">
+                        </div>
+                        <div class="hero-slide">
+                            <img src="ISAAC1.JPG" alt="City Rhythms - Queens, NYC">
+                        </div>
+                        <div class="hero-slide">
+                            <img src="ISAAC1.JPG" alt="Night Scenes - Manhattan, NYC">
+                        </div>
+                        <div class="hero-slide">
+                            <img src="ISAAC1.JPG" alt="Analog Dreams - Bronx, NYC">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="hero-text">
+                    <h2 class="hero-title" id="heroTitle">"RAINY SUNDAY"</h2>
+                    <p class="hero-location" id="heroLocation">Manhattan, NYC</p>
+                    <div class="hero-nav">
+                        <button class="nav-arrow" id="prevBtn"></button>
+                        <button class="nav-arrow" id="nextBtn"></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Series Section -->
+        <section class="content-section" id="series">
+            <h2>Series</h2>
+            <div class="gallery">
+                <div class="gallery-item" data-collection="rainy-sunday-series">
+                    <img src="ISAAC1.JPG" alt="Rainy Sunday Series">
+                    <div class="gallery-content">
+                        <h3>"Rainy Sunday"</h3>
+                        <p>Manhattan, NYC</p>
+                        <span class="collection-type">Photography Series</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-collection="night-scenes-series">
+                    <img src="ISAAC1.JPG" alt="Night Scenes Series">
+                    <div class="gallery-content">
+                        <h3>"Night Scenes"</h3>
+                        <p>Manhattan, NYC</p>
+                        <span class="collection-type">Photography Series</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Film Section -->
+        <section class="content-section" id="film">
+            <h2>Film</h2>
+            <div class="gallery">
+                <div class="gallery-item" data-collection="street-film">
+                    <img src="ISAAC1.JPG" alt="Street Film Collection">
+                    <div class="gallery-content">
+                        <h3>"Street Film"</h3>
+                        <p>Brooklyn, NYC</p>
+                        <span class="collection-type">Analog Film</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-collection="analog-dreams-film">
+                    <img src="ISAAC1.JPG" alt="Analog Dreams Collection">
+                    <div class="gallery-content">
+                        <h3>"Analog Dreams"</h3>
+                        <p>Bronx, NYC</p>
+                        <span class="collection-type">35mm Film</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Section -->
+        <section class="content-section" id="video">
+            <h2>Video</h2>
+            <div class="video-gallery">
+                <div class="video-item" data-collection="city-rhythms-video">
+                    <div class="video-thumbnail">
+                        <img src="ISAAC1.JPG" alt="City Rhythms Video">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="gallery-content">
+                        <h3>"City Rhythms"</h3>
+                        <p>Queens, NYC</p>
+                        <span class="collection-type">Documentary Video</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="content-section" id="contact">
+            <h2>Contact</h2>
+            <div class="contact-info">
+                <p>For inquiries and collaborations:</p>
+                <p><a href="mailto:isaac@isaacmariano.com">isaac@isaacmariano.com</a></p>
+                <div class="social-links">
+                    <a href="#" target="_blank">Instagram</a>
+                    <a href="#" target="_blank">Behance</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html> 
