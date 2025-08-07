@@ -742,9 +742,16 @@ body.homepage-active {
         display: flex !important;
         align-items: center;
         justify-content: center;
+        transition: none !important;
+        cursor: default !important;
     }
     
     .slider-slide:not(:first-child) {
+        display: none !important;
+    }
+    
+    /* Ensure only first slide shows on mobile */
+    .slider-slide.active:not(:first-child) {
         display: none !important;
     }
     
