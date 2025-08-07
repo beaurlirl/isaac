@@ -748,6 +748,7 @@ body.homepage-active {
         cursor: pointer;
     }
     
+    .slider-slide:first-child,
     .slider-slide.active {
         opacity: 1;
     }
