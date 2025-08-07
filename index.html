@@ -44,6 +44,11 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            transition: opacity 0.8s ease-out;
+        }
+        
+        body.fade-out {
+            opacity: 0;
         }
         
         .entrance-title {
@@ -70,12 +75,16 @@
             display: inline-block;
         }
         
-        .enter-btn:hover {
-            background-color: #000;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+                 .enter-btn:hover {
+             background-color: #000;
+             color: white;
+             transform: translateY(-2px);
+             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+         }
+         
+         .enter-btn:active {
+             transform: translateY(0px);
+         }
         
         /* Mobile styles */
         @media (max-width: 768px) {
@@ -102,6 +111,20 @@
 </head>
 <body>
     <h1 class="entrance-title">Isaac Mariano</h1>
-    <a href="portfolio.html" class="enter-btn">Enter</a>
+    <a href="portfolio.html" class="enter-btn" id="enterBtn">Enter</a>
+
+    <script>
+        document.getElementById('enterBtn').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent immediate navigation
+            
+            // Add fade out class
+            document.body.classList.add('fade-out');
+            
+            // Navigate after fade completes
+            setTimeout(function() {
+                window.location.href = 'portfolio.html';
+            }, 800); // Match the CSS transition duration
+        });
+    </script>
 </body>
 </html> 
