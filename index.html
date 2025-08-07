@@ -15,8 +15,6 @@
     <meta property="og:title" content="Isaac Mariano - Photographer">
     <meta property="og:description" content="Photography portfolio featuring series, film photography, and video content">
     <meta property="og:image" content="https://raw.githubusercontent.com/beaurlirl/isaac/main/artemental/ARTE1.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -25,229 +23,85 @@
     <meta property="twitter:description" content="Photography portfolio featuring series, film photography, and video content">
     <meta property="twitter:image" content="https://raw.githubusercontent.com/beaurlirl/isaac/main/artemental/ARTE1.jpg">
     
-    <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Oswald', sans-serif;
+            background-color: white;
+            color: #000;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .entrance-title {
+            font-size: 48px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 50px;
+        }
+        
+        .enter-btn {
+            background: none;
+            border: 2px solid #000;
+            padding: 15px 40px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .enter-btn:hover {
+            background-color: #000;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .entrance-title {
+                font-size: 32px;
+                letter-spacing: 3px;
+                margin-bottom: 40px;
+            }
+            
+            .enter-btn {
+                padding: 12px 30px;
+                font-size: 16px;
+                letter-spacing: 1px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .entrance-title {
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="nav-brand">
-                <h1>ISAAC MARIANO</h1>
-            </div>
-            
-            <!-- Desktop Navigation -->
-            <div class="nav-links desktop-nav">
-                <a data-target="series" class="nav-link">series</a>
-                <a data-target="film" class="nav-link">film</a>
-                <a data-target="video" class="nav-link">video</a>
-                <a data-target="contact" class="nav-link">contact</a>
-            </div>
-            
-            <!-- Mobile Menu Button -->
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </nav>
-        
-        <!-- Mobile Navigation -->
-        <div class="mobile-nav" id="mobileNav">
-            <a data-target="series" class="nav-link">series</a>
-            <a data-target="film" class="nav-link">film</a>
-            <a data-target="video" class="nav-link">video</a>
-            <a data-target="contact" class="nav-link">contact</a>
-        </div>
-    </header>
-
-    <main>
-        <!-- Homepage - Full Screen Slider -->
-        <section class="page active" id="homepage">
-            <div class="fullscreen-slider">
-                <div class="slider-content">
-                    <div class="slider-image-container">
-                        <div class="slider-images" id="sliderImages">
-                            <div class="slider-slide active" data-type="series" data-target="series">
-                                <img src="ISAAC1.JPG" alt="Photography Series">
-                            </div>
-                            <div class="slider-slide" data-type="film" data-target="film">
-                                <img src="ISAAC1.JPG" alt="Film Photography">
-                            </div>
-                            <div class="slider-slide" data-type="video" data-target="video">
-                                <img src="ISAAC1.JPG" alt="Video Content">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slider-text">
-                        <div class="section-indicator" id="sectionIndicator">Section 1</div>
-                        <h1 class="slider-title" id="sliderTitle">"RAINY SUNDAY"</h1>
-                        <p class="slider-location" id="sliderLocation">Manhattan, NYC</p>
-                        <div class="slider-navigation">
-                            <button class="slider-arrow" id="prevSlide">←</button>
-                            <button class="slider-arrow" id="nextSlide">→</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Series Page -->
-        <section class="page" id="series">
-            <div class="page-header">
-                <button class="back-btn" data-target="homepage">← Back</button>
-                <h1>Series</h1>
-            </div>
-            <div class="series-grid">
-                <div class="series-preview" data-series="arte-mental">
-                    <div class="preview-image">
-                        <img src="artemental/ARTE1.jpg" alt="Arte Mental Series">
-                    </div>
-                    <div class="preview-info">
-                        <h2>"Arte Mental"</h2>
-                        <p>Photography Series</p>
-                        <span class="photo-count">9 Photos</span>
-                    </div>
-                </div>
-                <div class="series-preview" data-series="analog-dreams">
-                    <div class="preview-image">
-                        <img src="analogdreams/DSCF8917.JPG" alt="Analog Dreams Series">
-                    </div>
-                    <div class="preview-info">
-                        <h2>"Analog Dreams"</h2>
-                        <p>Film Photography Series</p>
-                        <span class="photo-count">6 Photos</span>
-                    </div>
-                </div>
-                <div class="series-preview" data-series="rainy-sunday">
-                    <div class="preview-image">
-                        <img src="ISAAC1.JPG" alt="Rainy Sunday Series">
-                    </div>
-                    <div class="preview-info">
-                        <h2>"Rainy Sunday"</h2>
-                        <p>Manhattan, NYC</p>
-                        <span class="photo-count">12 Photos</span>
-                    </div>
-                </div>
-                <div class="series-preview" data-series="night-scenes">
-                    <div class="preview-image">
-                        <img src="ISAAC1.JPG" alt="Night Scenes Series">
-                    </div>
-                    <div class="preview-info">
-                        <h2>"Night Scenes"</h2>
-                        <p>Manhattan, NYC</p>
-                        <span class="photo-count">8 Photos</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Film Page -->
-        <section class="page" id="film">
-            <div class="page-header">
-                <button class="back-btn" data-target="homepage">← Back</button>
-                <h1>Film</h1>
-            </div>
-            <div class="film-grid">
-                <div class="film-photo" data-collection="street-scenes">
-                    <img src="ISAAC1.JPG" alt="Street Scenes">
-                    <div class="photo-info">
-                        <h3>"Street Scenes"</h3>
-                        <p>Brooklyn, NYC • 35mm Film</p>
-                        <span class="collection-indicator">5 Photos</span>
-                    </div>
-                </div>
-                <div class="film-photo single" data-photo="urban-portrait">
-                    <img src="ISAAC1.JPG" alt="Urban Portrait">
-                    <div class="photo-info">
-                        <h3>"Urban Portrait"</h3>
-                        <p>Manhattan, NYC • Medium Format</p>
-                    </div>
-                </div>
-                <div class="film-photo" data-collection="analog-dreams">
-                    <img src="ISAAC1.JPG" alt="Analog Dreams">
-                    <div class="photo-info">
-                        <h3>"Analog Dreams"</h3>
-                        <p>Queens, NYC • 35mm Film</p>
-                        <span class="collection-indicator">7 Photos</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Video Page -->
-        <section class="page" id="video">
-            <div class="page-header">
-                <button class="back-btn" data-target="homepage">← Back</button>
-                <h1>Video</h1>
-            </div>
-            <div class="video-grid">
-                <div class="video-item">
-                    <div class="video-container">
-                        <img src="ISAAC1.JPG" alt="City Rhythms Video Thumbnail">
-                        <div class="video-play-btn">▶</div>
-                    </div>
-                    <div class="video-info">
-                        <h3>"City Rhythms"</h3>
-                        <p>Documentary • 3:42</p>
-                        <span class="video-description">A visual exploration of NYC street life</span>
-                    </div>
-                </div>
-                <div class="video-item">
-                    <div class="video-container">
-                        <img src="ISAAC1.JPG" alt="Night Stories Video Thumbnail">
-                        <div class="video-play-btn">▶</div>
-                    </div>
-                    <div class="video-info">
-                        <h3>"Night Stories"</h3>
-                        <p>Short Film • 5:18</p>
-                        <span class="video-description">After-dark moments in the city</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Page -->
-        <section class="page" id="contact">
-            <div class="page-header">
-                <button class="back-btn" data-target="homepage">← Back</button>
-                <h1>Contact</h1>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h2>Get in touch</h2>
-                    <p>For inquiries and collaborations:</p>
-                    <a href="mailto:isaac@isaacmariano.com" class="email-link">isaac@isaacmariano.com</a>
-                    <div class="social-links">
-                        <a href="#" target="_blank">Instagram</a>
-                        <a href="#" target="_blank">Behance</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Photo Carousel Modal -->
-    <div class="carousel-modal" id="carouselModal">
-        <div class="carousel-overlay" id="carouselOverlay"></div>
-        <div class="carousel-container">
-            <button class="carousel-close" id="carouselClose">&times;</button>
-            <button class="carousel-prev" id="carouselPrev">&#8249;</button>
-            <button class="carousel-next" id="carouselNext">&#8250;</button>
-            <div class="carousel-content">
-                <img class="carousel-image" id="carouselImage" src="" alt="">
-                <div class="carousel-info">
-                    <h3 class="carousel-title" id="carouselTitle"></h3>
-                    <span class="carousel-counter" id="carouselCounter">1 / 9</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    <h1 class="entrance-title">Isaac Mariano</h1>
+    <a href="portfolio.html" class="enter-btn">Enter</a>
 </body>
 </html> 
