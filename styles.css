@@ -132,11 +132,11 @@ body.homepage-active {
 /* Homepage - Fullscreen Slider */
 #homepage {
     background-color: white;
-    margin-top: 70px;
-    height: calc(100vh - 70px);
+    margin-top: 80px;
+    height: calc(100vh - 80px);
     overflow: hidden;
     position: fixed;
-    top: 70px;
+    top: 80px;
     left: 0;
     right: 0;
     bottom: 0;
