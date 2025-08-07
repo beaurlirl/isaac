@@ -45,38 +45,93 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Page Navigation Functions
     function showPage(pageId) {
-        // Hide all pages
-        pages.forEach(page => page.classList.remove('active'));
-        
-        // Show target page
-        const targetPage = document.getElementById(pageId);
-        if (targetPage) {
-            targetPage.classList.add('active');
-        }
-        
-        // Handle body class for homepage scrolling
-        if (pageId === 'homepage') {
-            document.body.classList.add('homepage-active');
-            // Restart photo rotation when returning to homepage
-            if (allPhotos && allPhotos.length > 0) {
-                startPhotoRotation();
-            }
+        // Add fade out effect to current page
+        const currentActivePage = document.querySelector('.page.active');
+        if (currentActivePage) {
+            currentActivePage.style.transition = 'opacity 0.4s ease-out';
+            currentActivePage.style.opacity = '0';
+            
+            // After fade out completes, switch pages
+            setTimeout(() => {
+                // Hide all pages
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                    page.style.opacity = '';
+                    page.style.transition = '';
+                });
+                
+                // Show target page with fade in
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.style.opacity = '0';
+                    targetPage.classList.add('active');
+                    
+                    // Trigger fade in
+                    setTimeout(() => {
+                        targetPage.style.transition = 'opacity 0.4s ease-in';
+                        targetPage.style.opacity = '1';
+                        
+                        // Clean up after animation
+                        setTimeout(() => {
+                            targetPage.style.transition = '';
+                            targetPage.style.opacity = '';
+                        }, 400);
+                    }, 50);
+                }
+                
+                // Handle body class for homepage scrolling
+                if (pageId === 'homepage') {
+                    document.body.classList.add('homepage-active');
+                    // Restart photo rotation when returning to homepage
+                    if (allPhotos && allPhotos.length > 0) {
+                        startPhotoRotation();
+                    }
+                } else {
+                    document.body.classList.remove('homepage-active');
+                    // Stop photo rotation when leaving homepage
+                    stopPhotoRotation();
+                }
+                
+                // Update navigation active state
+                navLinks.forEach(link => link.classList.remove('active'));
+                const activeNavLink = document.querySelector(`[data-target="${pageId}"]`);
+                if (activeNavLink) {
+                    activeNavLink.classList.add('active');
+                }
+                
+                // Close mobile menu if open
+                if (mobileNav.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
+            }, 400);
         } else {
-            document.body.classList.remove('homepage-active');
-            // Stop photo rotation when leaving homepage
-            stopPhotoRotation();
-        }
-        
-        // Update navigation active state
-        navLinks.forEach(link => link.classList.remove('active'));
-        const activeNavLink = document.querySelector(`[data-target="${pageId}"]`);
-        if (activeNavLink) {
-            activeNavLink.classList.add('active');
-        }
-        
-        // Close mobile menu if open
-        if (mobileNav.classList.contains('active')) {
-            toggleMobileMenu();
+            // No current page, just show target immediately (initial load)
+            pages.forEach(page => page.classList.remove('active'));
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            // Handle other initialization logic
+            if (pageId === 'homepage') {
+                document.body.classList.add('homepage-active');
+                if (allPhotos && allPhotos.length > 0) {
+                    startPhotoRotation();
+                }
+            } else {
+                document.body.classList.remove('homepage-active');
+                stopPhotoRotation();
+            }
+            
+            navLinks.forEach(link => link.classList.remove('active'));
+            const activeNavLink = document.querySelector(`[data-target="${pageId}"]`);
+            if (activeNavLink) {
+                activeNavLink.classList.add('active');
+            }
+            
+            if (mobileNav.classList.contains('active')) {
+                toggleMobileMenu();
+            }
         }
     }
     
