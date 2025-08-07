@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Isaac Mariano - Photographer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -76,6 +79,26 @@
                 <h1>Series</h1>
             </div>
             <div class="series-grid">
+                <div class="series-preview" data-series="arte-mental">
+                    <div class="preview-image">
+                        <img src="artemental/ARTE1.jpg" alt="Arte Mental Series">
+                    </div>
+                    <div class="preview-info">
+                        <h2>"Arte Mental"</h2>
+                        <p>Photography Series</p>
+                        <span class="photo-count">9 Photos</span>
+                    </div>
+                </div>
+                <div class="series-preview" data-series="analog-dreams">
+                    <div class="preview-image">
+                        <img src="analogdreams/DSCF8917.JPG" alt="Analog Dreams Series">
+                    </div>
+                    <div class="preview-info">
+                        <h2>"Analog Dreams"</h2>
+                        <p>Film Photography Series</p>
+                        <span class="photo-count">6 Photos</span>
+                    </div>
+                </div>
                 <div class="series-preview" data-series="rainy-sunday">
                     <div class="preview-image">
                         <img src="ISAAC1.JPG" alt="Rainy Sunday Series">
@@ -183,6 +206,23 @@
             </div>
         </section>
     </main>
+
+    <!-- Photo Carousel Modal -->
+    <div class="carousel-modal" id="carouselModal">
+        <div class="carousel-overlay" id="carouselOverlay"></div>
+        <div class="carousel-container">
+            <button class="carousel-close" id="carouselClose">&times;</button>
+            <button class="carousel-prev" id="carouselPrev">&#8249;</button>
+            <button class="carousel-next" id="carouselNext">&#8250;</button>
+            <div class="carousel-content">
+                <img class="carousel-image" id="carouselImage" src="" alt="">
+                <div class="carousel-info">
+                    <h3 class="carousel-title" id="carouselTitle"></h3>
+                    <span class="carousel-counter" id="carouselCounter">1 / 9</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

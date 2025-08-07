@@ -6,10 +6,15 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5;
+    background-color: white;
     color: #333;
     line-height: 1.6;
     overflow-x: hidden;
+}
+
+body.homepage-active {
+    overflow: hidden;
+    height: 100vh;
 }
 
 /* Navigation Styles */
@@ -27,10 +32,12 @@ body {
 }
 
 .nav-brand h1 {
+    font-family: 'Oswald', sans-serif;
     font-size: 24px;
-    font-weight: bold;
-    letter-spacing: 2px;
+    font-weight: 600;
+    letter-spacing: 3px;
     color: #000;
+    text-transform: uppercase;
 }
 
 .desktop-nav {
@@ -57,11 +64,11 @@ body {
     left: 0;
     width: 100%;
     height: 2px;
-    background-color: #ff69b4;
+    background-color: #ff0000;
 }
 
 .nav-link.active {
-    color: #ff69b4;
+    color: #ff0000;
 }
 
 /* Mobile Menu Button */
@@ -109,24 +116,45 @@ body {
     display: none;
     min-height: 100vh;
     width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 .page.active {
     display: block;
 }
 
+.page:not(#homepage) {
+    background-color: #f5f5f5;
+    overflow-y: auto;
+}
+
 /* Homepage - Fullscreen Slider */
 #homepage {
     background-color: white;
-    margin-top: 80px;
+    margin-top: 70px;
+    height: calc(100vh - 70px);
+    overflow: hidden;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
+#homepage.active {
+    display: block;
+}
+
+
+
 .fullscreen-slider {
-    height: calc(100vh - 80px);
+    height: 100%;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
 .slider-content {
@@ -134,25 +162,62 @@ body {
     max-width: 1400px;
     width: 100%;
     height: 100%;
-    align-items: center;
-    padding: 40px;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0px 40px 40px;
     gap: 80px;
+    overflow: hidden;
 }
 
 .slider-image-container {
     flex: 1;
     max-width: 700px;
-    height: 80vh;
+    height: 70vh;
+    max-height: 80vh;
     position: relative;
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.slider-image-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.slider-image-container::after {
+    content: 'Click to view series';
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.slider-image-container:hover::after {
+    opacity: 1;
 }
 
 .slider-images {
     width: 100%;
     height: 100%;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .slider-slide {
@@ -164,6 +229,9 @@ body {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .slider-slide.active {
@@ -171,9 +239,11 @@ body {
 }
 
 .slider-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 
 .slider-text {
@@ -181,8 +251,10 @@ body {
     padding-left: 40px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    height: 80vh;
+    justify-content: flex-start;
+    height: auto;
+    text-align: left;
+    padding-top: 20px;
 }
 
 .section-indicator {
@@ -198,17 +270,19 @@ body {
 }
 
 .slider-title {
+    font-family: 'Oswald', sans-serif;
     font-size: 48px;
-    font-weight: bold;
+    font-weight: 500;
     margin-bottom: 15px;
     color: #000;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     transition: color 0.3s ease;
     cursor: pointer;
+    text-transform: uppercase;
 }
 
 .slider-title:hover {
-    color: #ff69b4;
+    color: #ff0000;
 }
 
 .slider-location {
@@ -273,9 +347,11 @@ body {
 }
 
 .page-header h1 {
+    font-family: 'Oswald', sans-serif;
     font-size: 36px;
-    font-weight: bold;
-    letter-spacing: 2px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
 }
 
 /* Series Page */
@@ -323,10 +399,13 @@ body {
 }
 
 .preview-info h2 {
+    font-family: 'Oswald', sans-serif;
     font-size: 24px;
-    font-weight: bold;
+    font-weight: 500;
     margin-bottom: 8px;
     color: #000;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .preview-info p {
@@ -337,7 +416,7 @@ body {
 
 .photo-count {
     font-size: 14px;
-    color: #ff69b4;
+    color: #ff0000;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -377,10 +456,13 @@ body {
 }
 
 .photo-info h3 {
+    font-family: 'Oswald', sans-serif;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 500;
     margin-bottom: 8px;
     color: #000;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .photo-info p {
@@ -391,7 +473,7 @@ body {
 
 .collection-indicator {
     font-size: 12px;
-    color: #ff69b4;
+    color: #ff0000;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -451,7 +533,7 @@ body {
 }
 
 .video-play-btn:hover {
-    background-color: #ff69b4;
+    background-color: #ff0000;
     transform: translate(-50%, -50%) scale(1.1);
 }
 
@@ -460,10 +542,13 @@ body {
 }
 
 .video-info h3 {
+    font-family: 'Oswald', sans-serif;
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 500;
     margin-bottom: 8px;
     color: #000;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .video-info p {
@@ -487,10 +572,13 @@ body {
 }
 
 .contact-info h2 {
+    font-family: 'Oswald', sans-serif;
     font-size: 32px;
-    font-weight: bold;
+    font-weight: 500;
     margin-bottom: 20px;
     color: #000;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .contact-info p {
@@ -502,7 +590,7 @@ body {
 .email-link {
     display: inline-block;
     font-size: 24px;
-    color: #ff69b4;
+    color: #ff0000;
     text-decoration: none;
     font-weight: 500;
     margin-bottom: 40px;
@@ -540,9 +628,19 @@ body {
         padding: 15px 30px;
     }
     
+    #homepage {
+        height: calc(100vh - 80px);
+        overflow: hidden;
+    }
+    
     .slider-content {
         gap: 40px;
         padding: 30px;
+        overflow: hidden;
+    }
+    
+    .slider-text {
+        padding-top: 8vh;
     }
     
     .slider-title {
@@ -579,30 +677,54 @@ body {
     
     .nav-brand h1 {
         font-size: 20px;
+        letter-spacing: 2px;
     }
+    
+    #homepage {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: calc(100vh - 70px);
+        overflow: hidden;
+    }
+    
+
     
     .slider-content {
         flex-direction: column;
-        gap: 30px;
-        padding: 20px;
+        gap: 20px;
+        padding: 0px 20px 20px;
         text-align: center;
+        height: 100%;
+        justify-content: flex-start;
+        align-items: center;
+        overflow: hidden;
     }
     
-    .slider-image-container {
+.slider-image-container {
         max-width: 100%;
-        height: 50vh;
+        height: 45vh;
+        max-height: 50vh;
         flex: none;
+        min-height: 300px;
     }
     
     .slider-text {
         flex: none;
         padding-left: 0;
         height: auto;
+        max-height: 40vh;
+        overflow: hidden;
+        text-align: center;
+        align-items: center;
     }
     
     .slider-title {
         font-size: 28px;
         margin-bottom: 15px;
+        letter-spacing: 2px;
     }
     
     .slider-location {
@@ -631,6 +753,7 @@ body {
     
     .page-header h1 {
         font-size: 28px;
+        letter-spacing: 2px;
     }
     
     .series-grid {
@@ -667,10 +790,183 @@ body {
     }
 }
 
+/* Photo Carousel Modal */
+.carousel-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+}
+
+.carousel-modal.active {
+    display: block;
+}
+
+.carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    cursor: pointer;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px 20px;
+}
+
+.carousel-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+    z-index: 10001;
+    transition: color 0.3s ease;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-close:hover {
+    color: #ff0000;
+}
+
+.carousel-prev,
+.carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10001;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-prev {
+    left: 30px;
+}
+
+.carousel-next {
+    right: 30px;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+    background: rgba(255, 0, 0, 0.8);
+    border-color: #ff0000;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-content {
+    max-width: 90%;
+    max-height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.carousel-image {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-info {
+    margin-top: 20px;
+    text-align: center;
+    color: white;
+}
+
+.carousel-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.carousel-counter {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 300;
+}
+
+/* Mobile Carousel Styles */
+@media (max-width: 768px) {
+    .carousel-container {
+        padding: 80px 15px 15px;
+    }
+    
+    .carousel-close {
+        top: 15px;
+        right: 20px;
+        font-size: 35px;
+        width: 45px;
+        height: 45px;
+    }
+    
+    .carousel-prev,
+    .carousel-next {
+        width: 50px;
+        height: 50px;
+        font-size: 25px;
+    }
+    
+    .carousel-prev {
+        left: 15px;
+    }
+    
+    .carousel-next {
+        right: 15px;
+    }
+    
+    .carousel-image {
+        max-height: 70vh;
+    }
+    
+    .carousel-title {
+        font-size: 20px;
+        letter-spacing: 1px;
+    }
+    
+    .carousel-counter {
+        font-size: 14px;
+    }
+}
+
 /* Small Mobile Styles */
 @media (max-width: 480px) {
     .slider-title {
         font-size: 24px;
+        letter-spacing: 1px;
     }
     
     .slider-location {
