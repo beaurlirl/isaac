@@ -783,17 +783,27 @@ body.homepage-active {
         overflow: hidden;
         text-align: center;
         align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .section-indicator {
+        align-self: center;
+        margin-bottom: 20px;
     }
     
     .slider-title {
         font-size: 28px;
         margin-bottom: 15px;
         letter-spacing: 2px;
+        text-align: center;
     }
     
     .slider-location {
         font-size: 18px;
         margin-bottom: 30px;
+        text-align: center;
     }
     
     .slider-navigation {
@@ -1039,13 +1049,20 @@ body.homepage-active {
         max-height: 45vh;
     }
     
+    .section-indicator {
+        align-self: center;
+        margin-bottom: 15px;
+    }
+    
     .slider-title {
         font-size: 24px;
         letter-spacing: 1px;
+        text-align: center;
     }
     
     .slider-location {
         font-size: 16px;
+        text-align: center;
     }
     
     .series-grid {
