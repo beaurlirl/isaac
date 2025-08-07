@@ -695,7 +695,7 @@ body.homepage-active {
     .slider-content {
         flex-direction: column;
         gap: 20px;
-        padding: 0px 20px 20px;
+        padding: 20px 20px 20px;
         text-align: center;
         height: 100%;
         justify-content: flex-start;
@@ -964,6 +964,17 @@ body.homepage-active {
 
 /* Small Mobile Styles */
 @media (max-width: 480px) {
+    .slider-content {
+        padding: 30px 15px 15px;
+        gap: 15px;
+    }
+    
+    .slider-image-container {
+        height: 40vh;
+        min-height: 250px;
+        max-height: 45vh;
+    }
+    
     .slider-title {
         font-size: 24px;
         letter-spacing: 1px;
