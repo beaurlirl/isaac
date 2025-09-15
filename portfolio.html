@@ -43,7 +43,7 @@
             <!-- Desktop Navigation -->
             <div class="nav-links desktop-nav">
                 <a data-target="series" class="nav-link">series</a>
-                <a data-target="film" class="nav-link">film</a>
+                <a data-target="film" class="nav-link">work</a>
                 <a data-target="video" class="nav-link">video</a>
                 <a data-target="contact" class="nav-link">contact</a>
             </div>
@@ -59,40 +59,100 @@
         <!-- Mobile Navigation -->
         <div class="mobile-nav" id="mobileNav">
             <a data-target="series" class="nav-link">series</a>
-            <a data-target="film" class="nav-link">film</a>
+            <a data-target="film" class="nav-link">work</a>
             <a data-target="video" class="nav-link">video</a>
             <a data-target="contact" class="nav-link">contact</a>
         </div>
     </header>
 
     <main>
-        <!-- Homepage - Full Screen Slider -->
+        <!-- Homepage - Multi-Photo Grid Layout -->
         <section class="page active" id="homepage">
-            <div class="fullscreen-slider">
-                <div class="slider-content">
-                    <div class="slider-image-container">
-                        <div class="slider-images" id="sliderImages">
-                            <div class="slider-slide active" data-type="series" data-target="series">
-                                <img src="ISAAC1.JPG" alt="Photography Series">
-                            </div>
-                            <div class="slider-slide" data-type="film" data-target="film">
-                                <img src="ISAAC1.JPG" alt="Film Photography">
-                            </div>
-                            <div class="slider-slide" data-type="video" data-target="video">
-                                <img src="ISAAC1.JPG" alt="Video Content">
-                            </div>
-                        </div>
+            <div class="skewed-grid-container">
+                <div class="grid-item large-item" data-target="series">
+                    <div class="grid-item-image">
+                        <img src="series/artemental/ARTE1.jpg" alt="Arte Mental">
                     </div>
-                    <div class="slider-text">
-                        <div class="section-indicator" id="sectionIndicator">Section 1</div>
-                        <h1 class="slider-title" id="sliderTitle">"RAINY SUNDAY"</h1>
-                        <p class="slider-location" id="sliderLocation">Manhattan, NYC</p>
-                        <div class="slider-navigation">
-                            <button class="slider-arrow" id="prevSlide">←</button>
-                            <button class="slider-arrow" id="nextSlide">→</button>
+                    <div class="grid-item-overlay">
+                        <div class="grid-item-content">
+                            <h2>ARTE MENTAL</h2>
+                            <p>Photography Series</p>
                         </div>
                     </div>
                 </div>
+
+                <div class="grid-item medium-item" data-target="series">
+                    <div class="grid-item-image">
+                        <img src="series/analogdreams/DSCF8917.JPG" alt="Analog Dreams">
+                    </div>
+                    <div class="grid-item-overlay">
+                        <div class="grid-item-content">
+                            <h2>ANALOG DREAMS</h2>
+                            <p>Film Photography</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-item small-item" data-target="film">
+                    <div class="grid-item-image">
+                        <img src="work/BEÉLENYC2024/DSCF5274-2.JPG" alt="BEÉLENYC2024">
+                    </div>
+                    <div class="grid-item-overlay">
+                        <div class="grid-item-content">
+                            <h2>BEÉLENYC2024</h2>
+                            <p>NYC Photography</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-item small-item" data-target="film">
+                    <div class="grid-item-image">
+                        <img src="work/ONCENOTES/Copia de DSCF3009 copia.jpg" alt="ONCENOTES">
+                    </div>
+                    <div class="grid-item-overlay">
+                        <div class="grid-item-content">
+                            <h2>ONCENOTES</h2>
+                            <p>Music Photography</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-item small-item" data-target="series">
+                    <div class="grid-item-image">
+                        <img src="series/NEWCURRENCYxBRL/DSCF3293.JPG" alt="NEWCURRENCYxBRL">
+                    </div>
+                    <div class="grid-item-overlay">
+                        <div class="grid-item-content">
+                            <h2>NEWCURRENCYxBRL</h2>
+                            <p>Photography Series</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-item accent-item" data-target="film">
+                    <div class="grid-item-image">
+                        <img src="work/DANNYOCEAN/DSCF9136.JPG" alt="DANNYOCEAN">
+                    </div>
+                    <div class="grid-item-overlay">
+                        <div class="grid-item-content">
+                            <h2>DANNYOCEAN</h2>
+                            <p>Music Photography</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-item small-item" data-target="series">
+                    <div class="grid-item-image">
+                        <img src="DSCF2964.JPG" alt="Rainy Sunday">
+                    </div>
+                    <div class="grid-item-overlay">
+                        <div class="grid-item-content">
+                            <h2>RAINY SUNDAY</h2>
+                            <p>Manhattan, NYC</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -105,7 +165,7 @@
             <div class="series-grid">
                 <div class="series-preview" data-series="arte-mental">
                     <div class="preview-image">
-                        <img src="artemental/ARTE1.jpg" alt="Arte Mental Series">
+                        <img src="series/artemental/ARTE1.jpg" alt="Arte Mental Series">
                     </div>
                     <div class="preview-info">
                         <h2>"Arte Mental"</h2>
@@ -115,7 +175,7 @@
                 </div>
                 <div class="series-preview" data-series="analog-dreams">
                     <div class="preview-image">
-                        <img src="analogdreams/DSCF8917.JPG" alt="Analog Dreams Series">
+                        <img src="series/analogdreams/DSCF8917.JPG" alt="Analog Dreams Series">
                     </div>
                     <div class="preview-info">
                         <h2>"Analog Dreams"</h2>
@@ -150,7 +210,7 @@
         <section class="page" id="film">
             <div class="page-header">
                 <button class="back-btn" data-target="homepage">← Back</button>
-                <h1>Film</h1>
+                <h1>Work</h1>
             </div>
             <div class="film-grid">
                 <div class="film-photo" data-collection="street-scenes">
@@ -250,4 +310,5 @@
 
     <script src="script.js"></script>
 </body>
+</html> 
 </html> 

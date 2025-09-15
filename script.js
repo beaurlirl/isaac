@@ -7,39 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Page elements
     const pages = document.querySelectorAll('.page');
-    const sliderImages = document.getElementById('sliderImages');
-    const sliderTitle = document.getElementById('sliderTitle');
-    const sliderLocation = document.getElementById('sliderLocation');
-    const sectionIndicator = document.getElementById('sectionIndicator');
-    const prevSlideBtn = document.getElementById('prevSlide');
-    const nextSlideBtn = document.getElementById('nextSlide');
+    const gridItems = document.querySelectorAll('.grid-item');
     
-    // Slider data
-    const sliderData = [
-        {
-            type: 'series',
-            target: 'series',
-            title: '"RAINY SUNDAY"',
-            location: 'Manhattan, NYC',
-            section: 'Section 1'
-        },
-        {
-            type: 'film',
-            target: 'film',
-            title: '"STREET FILM"',
-            location: 'Brooklyn, NYC',
-            section: 'Section 2'
-        },
-        {
-            type: 'video',
-            target: 'video',
-            title: '"CITY RHYTHMS"',
-            location: 'Queens, NYC',
-            section: 'Section 3'
-        }
-    ];
-    
-    let currentSlide = 0;
+    // Grid navigation data
     let touchStartX = 0;
     let touchEndX = 0;
     
@@ -82,14 +52,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Handle body class for homepage scrolling
                 if (pageId === 'homepage') {
                     document.body.classList.add('homepage-active');
-                    // Restart photo rotation when returning to homepage
-                    if (allPhotos && allPhotos.length > 0) {
-                        startPhotoRotation();
-                    }
                 } else {
                     document.body.classList.remove('homepage-active');
-                    // Stop photo rotation when leaving homepage
-                    stopPhotoRotation();
                 }
                 
                 // Update navigation active state
@@ -115,12 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Handle other initialization logic
             if (pageId === 'homepage') {
                 document.body.classList.add('homepage-active');
-                if (allPhotos && allPhotos.length > 0) {
-                    startPhotoRotation();
-                }
             } else {
                 document.body.classList.remove('homepage-active');
-                stopPhotoRotation();
             }
             
             navLinks.forEach(link => link.classList.remove('active'));
@@ -135,33 +95,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Slider Functions
-    function updateSlider(slideIndex) {
-        // Update slider images
-        const slides = document.querySelectorAll('.slider-slide');
-        slides.forEach(slide => slide.classList.remove('active'));
-        slides[slideIndex].classList.add('active');
-        
-        // Update text content
-        const currentData = sliderData[slideIndex];
-        sliderTitle.textContent = currentData.title;
-        sliderLocation.textContent = currentData.location;
-        sectionIndicator.textContent = currentData.section;
-        
-        // Store target for click navigation
-        sliderTitle.setAttribute('data-target', currentData.target);
-        
-        currentSlide = slideIndex;
-    }
-    
-    function nextSlide() {
-        const nextIndex = (currentSlide + 1) % sliderData.length;
-        updateSlider(nextIndex);
-    }
-    
-    function prevSlide() {
-        const prevIndex = (currentSlide - 1 + sliderData.length) % sliderData.length;
-        updateSlider(prevIndex);
+    // Grid Navigation Functions
+    function initializeGridNavigation() {
+        gridItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const target = this.getAttribute('data-target');
+                if (target) {
+                    showPage(target);
+                }
+            });
+        });
     }
     
     // Mobile Menu Functions
@@ -199,72 +142,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Slider navigation arrows - now controls photo rotation
-    if (prevSlideBtn) {
-        prevSlideBtn.addEventListener('click', function() {
-            prevPhoto();
-            // Restart rotation timer
-            startPhotoRotation();
-        });
-    }
-    if (nextSlideBtn) {
-        nextSlideBtn.addEventListener('click', function() {
-            nextPhoto();
-            // Restart rotation timer
-            startPhotoRotation();
-        });
-    }
-    
-    // Slider title click navigation
-    if (sliderTitle) {
-        sliderTitle.addEventListener('click', function() {
-            const targetPage = this.getAttribute('data-target');
-            if (targetPage) {
-                showPage(targetPage);
-            }
-        });
-    }
-    
-    // Add hover controls to pause/resume rotation
-    const sliderImageContainer = document.querySelector('.slider-image-container');
-    if (sliderImageContainer) {
-        sliderImageContainer.addEventListener('mouseenter', pauseRotation);
-        sliderImageContainer.addEventListener('mouseleave', resumeRotation);
-        
-        // Click to navigate to series
-        sliderImageContainer.addEventListener('click', function() {
-            navigateToCurrentPhotoSeries();
-        });
-        
-        // Add cursor pointer to indicate clickability
-        sliderImageContainer.style.cursor = 'pointer';
-    }
-
-    // Navigate to the series of the currently displayed photo
-    function navigateToCurrentPhotoSeries() {
-        if (currentPhotoIndex < 0 || currentPhotoIndex >= allPhotos.length) return;
-        
-        const currentPhoto = allPhotos[currentPhotoIndex];
-        const collectionKey = currentPhoto.collection;
-        
-        console.log('Navigating to series:', collectionKey, 'Photo:', currentPhoto.src); // Debug log
-        
-        // Stop rotation when navigating away
-        stopPhotoRotation();
-        
-        // Find the photo's index within its specific collection
-        const photoIndexInCollection = photoCollections[collectionKey].photos.indexOf(currentPhoto.src);
-        
-        console.log('Photo index in collection:', photoIndexInCollection); // Debug log
-        
-        // Navigate to series page
-        showPage('series');
-        
-        // Small delay to ensure page is loaded, then open carousel
-        setTimeout(() => {
-            openCarousel(collectionKey, photoIndexInCollection);
-        }, 100);
-    }
     
     // Back buttons
     const backBtns = document.querySelectorAll('.back-btn');
@@ -277,98 +154,85 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Touch/swipe functionality for slider
-    if (sliderImages) {
-        sliderImages.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-        
-        sliderImages.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-        
-        // Mouse drag functionality for desktop
-        let isDragging = false;
-        let startX = 0;
-        
-        sliderImages.addEventListener('mousedown', function(e) {
-            isDragging = true;
-            startX = e.clientX;
-            sliderImages.style.cursor = 'grabbing';
-        });
-        
-        sliderImages.addEventListener('mousemove', function(e) {
-            if (!isDragging) return;
-            e.preventDefault();
-        });
-        
-        sliderImages.addEventListener('mouseup', function(e) {
-            if (!isDragging) return;
-            isDragging = false;
-            sliderImages.style.cursor = 'grab';
-            
-            const endX = e.clientX;
-            const diff = startX - endX;
-            
-            if (Math.abs(diff) > 50) { // Minimum drag distance
-                if (diff > 0) {
-                    nextSlide();
-                } else {
-                    prevSlide();
-                }
-            }
-        });
-        
-        sliderImages.addEventListener('mouseleave', function() {
-            isDragging = false;
-            sliderImages.style.cursor = 'grab';
-        });
-        
-        // Set initial cursor
-        sliderImages.style.cursor = 'grab';
-    }
-    
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = touchStartX - touchEndX;
-        
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                // Swipe left - next slide
-                nextSlide();
-            } else {
-                // Swipe right - previous slide
-                prevSlide();
-            }
-        }
-    }
     
     // Photo collections data
     const photoCollections = {
         'arte-mental': {
             title: 'Arte Mental',
             photos: [
-                'artemental/ARTE1.jpg',
-                'artemental/ARTE3.JPEG',
-                'artemental/ARTE4.jpg',
-                'artemental/ARTE5.JPEG',
-                'artemental/ARTE6.jpg',
-                'artemental/ARTE7.jpg',
-                'artemental/ARTE8.JPEG',
-                'artemental/ARTE9.jpg',
-                'artemental/ARTE9.JPEG'
+                'series/artemental/ARTE1.jpg',
+                'series/artemental/ARTE3.JPEG',
+                'series/artemental/ARTE4.jpg',
+                'series/artemental/ARTE5.JPEG',
+                'series/artemental/ARTE6.jpg',
+                'series/artemental/ARTE7.jpg',
+                'series/artemental/ARTE8.JPEG',
+                'series/artemental/ARTE9.jpg',
+                'series/artemental/ARTE9.JPEG'
             ]
         },
         'analog-dreams': {
             title: 'Analog Dreams',
             photos: [
-                'analogdreams/A63AE8AC-8344-417F-98C0-4DEBAA5C15E0.JPEG',
-                'analogdreams/DSCF8917.JPG',
-                'analogdreams/DSCF8874.JPG',
-                'analogdreams/FA9DB80E-F9C4-43CE-8575-0F1F187AAF6A.JPG',
-                'analogdreams/FD578689-AB37-4D9A-A7C2-2728013B4C10.JPG',
-                'analogdreams/DSCF8852.JPG'
+                'series/analogdreams/A63AE8AC-8344-417F-98C0-4DEBAA5C15E0.JPEG',
+                'series/analogdreams/DSCF8917.JPG',
+                'series/analogdreams/DSCF8874.JPG',
+                'series/analogdreams/FA9DB80E-F9C4-43CE-8575-0F1F187AAF6A.JPG',
+                'series/analogdreams/FD578689-AB37-4D9A-A7C2-2728013B4C10.JPG',
+                'series/analogdreams/DSCF8852.JPG'
+            ]
+        },
+        'beelenyc2024': {
+            title: 'BEÉLENYC2024',
+            photos: [
+                'work/BEÉLENYC2024/DSCF5274-2.JPG',
+                'work/BEÉLENYC2024/DSCF5398.JPG',
+                'work/BEÉLENYC2024/DSCF5499.JPG',
+                'work/BEÉLENYC2024/DSCF5562.JPG',
+                'work/BEÉLENYC2024/DSCF5564.JPG',
+                'work/BEÉLENYC2024/DSCF5611.JPG',
+                'work/BEÉLENYC2024/DSCF5704.JPG',
+                'work/BEÉLENYC2024/DSCF5742.JPG'
+            ]
+        },
+        'oncenotes': {
+            title: 'ONCENOTES',
+            photos: [
+                'work/ONCENOTES/Copia de DSCF3009 copia.jpg',
+                'work/ONCENOTES/Copia de DSCF3017 copia.jpg',
+                'work/ONCENOTES/Copia de DSCF7046.jpg',
+                'work/ONCENOTES/Copia de DSCF7088.jpg',
+                'work/ONCENOTES/Copia de DSCF7105.jpg',
+                'work/ONCENOTES/Copia de DSCF8010.jpg',
+                'work/ONCENOTES/Copia de DSCF8048.jpg',
+                'work/ONCENOTES/Copia de DSCF9005-2 copia.jpg',
+                'work/ONCENOTES/Copia de DSCF9008-2 copia.jpg',
+                'work/ONCENOTES/DSCF0005 copia.jpg'
+            ]
+        },
+        'dannyocean': {
+            title: 'DANNYOCEAN',
+            photos: [
+                'work/DANNYOCEAN/DSCF9136.JPG',
+                'work/DANNYOCEAN/DSCF9141.JPG',
+                'work/DANNYOCEAN/DSCF9334.JPG',
+                'work/DANNYOCEAN/DSCF9349.JPG',
+                'work/DANNYOCEAN/DSCF9478.JPG',
+                'work/DANNYOCEAN/DSCF9640.JPG',
+                'work/DANNYOCEAN/DSCF9866.JPG',
+                'work/DANNYOCEAN/DSCF9875.jpg'
+            ]
+        },
+        'newcurrencyxbrl': {
+            title: 'NEWCURRENCYxBRL',
+            photos: [
+                'series/NEWCURRENCYxBRL/DSCF3293.JPG',
+                'series/NEWCURRENCYxBRL/DSCF3319.JPG',
+                'series/NEWCURRENCYxBRL/DSCF3370.JPG',
+                'series/NEWCURRENCYxBRL/DSCF3405.jpg',
+                'series/NEWCURRENCYxBRL/DSCF3421.jpg',
+                'series/NEWCURRENCYxBRL/DSCF3550.JPG',
+                'series/NEWCURRENCYxBRL/DSCF3562.JPG'
             ]
         },
         'rainy-sunday': {
@@ -386,119 +250,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Create master photo gallery array
-    const allPhotos = [];
-    Object.keys(photoCollections).forEach(collectionKey => {
-        photoCollections[collectionKey].photos.forEach(photo => {
-            allPhotos.push({
-                src: photo,
-                collection: collectionKey,
-                title: photoCollections[collectionKey].title
-            });
-        });
-    });
-    
-    console.log('All photos loaded:', allPhotos.length, allPhotos); // Debug log
-
-    // Photo rotation variables
-    let currentPhotoIndex = 0;
-    let photoRotationInterval = null;
-    let isRotationPaused = false;
-    const rotationSpeed = 4000; // 4 seconds per photo
-
-    // Initialize photo rotation
-    function initializePhotoRotation() {
-        if (allPhotos.length === 0) return;
-        
-        // Set initial photo
-        updateHeroPhoto(0);
-        
-        // Start automatic rotation
-        startPhotoRotation();
-    }
-
-    // Update hero photo
-    function updateHeroPhoto(photoIndex) {
-        if (photoIndex < 0 || photoIndex >= allPhotos.length) return;
-        
-        currentPhotoIndex = photoIndex;
-        const selectedPhoto = allPhotos[photoIndex];
-        
-        // Update the main slider image
-        const currentSlide = document.querySelector('.slider-slide.active');
-        if (currentSlide) {
-            const img = currentSlide.querySelector('img');
-            if (img) {
-                img.src = selectedPhoto.src;
-                img.alt = selectedPhoto.title;
-            }
-        }
-        
-        // Update slider title and location based on photo collection
-        const photoCollection = photoCollections[selectedPhoto.collection];
-        if (photoCollection && sliderTitle && sliderLocation) {
-            sliderTitle.textContent = `"${photoCollection.title.toUpperCase()}"`;
-            sliderLocation.textContent = getLocationForCollection(selectedPhoto.collection);
-        }
-        
-        // Update section indicator with photo count
-        if (sectionIndicator) {
-            sectionIndicator.textContent = `Photo ${photoIndex + 1} of ${allPhotos.length}`;
-        }
-    }
-
-    // Get location text for collection
-    function getLocationForCollection(collectionKey) {
-        const locations = {
-            'arte-mental': 'NYC Collection',
-            'analog-dreams': 'Film Series',
-            'rainy-sunday': 'Manhattan, NYC',
-            'night-scenes': 'Manhattan, NYC'
-        };
-        return locations[collectionKey] || 'Photography';
-    }
-
-    // Start automatic photo rotation
-    function startPhotoRotation() {
-        if (photoRotationInterval) {
-            clearInterval(photoRotationInterval);
-        }
-        
-        photoRotationInterval = setInterval(() => {
-            if (!isRotationPaused) {
-                nextPhoto();
-            }
-        }, rotationSpeed);
-    }
-
-    // Stop photo rotation
-    function stopPhotoRotation() {
-        if (photoRotationInterval) {
-            clearInterval(photoRotationInterval);
-            photoRotationInterval = null;
-        }
-    }
-
-    // Next photo in rotation
-    function nextPhoto() {
-        const nextIndex = (currentPhotoIndex + 1) % allPhotos.length;
-        updateHeroPhoto(nextIndex);
-    }
-
-    // Previous photo in rotation
-    function prevPhoto() {
-        const prevIndex = (currentPhotoIndex - 1 + allPhotos.length) % allPhotos.length;
-        updateHeroPhoto(prevIndex);
-    }
-
-    // Pause/resume rotation on hover
-    function pauseRotation() {
-        isRotationPaused = true;
-    }
-
-    function resumeRotation() {
-        isRotationPaused = false;
-    }
 
     // Carousel elements
     const carouselModal = document.getElementById('carouselModal');
@@ -641,35 +392,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', function(e) {
         const currentPage = document.querySelector('.page.active');
         
-        if (currentPage && currentPage.id === 'homepage') {
-            if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                prevPhoto();
-                startPhotoRotation(); // Restart rotation
-            } else if (e.key === 'ArrowRight') {
-                e.preventDefault();
-                nextPhoto();
-                startPhotoRotation(); // Restart rotation
-            } else if (e.key === 'Enter') {
-                e.preventDefault();
-                // Enter key to navigate to current photo's series
-                navigateToCurrentPhotoSeries();
-            } else if (e.key === ' ') {
-                e.preventDefault();
-                // Spacebar to pause/resume rotation
-                if (photoRotationInterval) {
-                    stopPhotoRotation();
-                    if (sectionIndicator) {
-                        sectionIndicator.textContent = `Photo ${currentPhotoIndex + 1} of ${allPhotos.length} - Paused`;
-                    }
-                } else {
-                    startPhotoRotation();
-                    if (sectionIndicator) {
-                        sectionIndicator.textContent = `Photo ${currentPhotoIndex + 1} of ${allPhotos.length}`;
-                    }
-                }
-            }
-        }
         
         // ESC key to go back to homepage from any page
         if (e.key === 'Escape') {
@@ -695,5 +417,5 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize the page
     showPage('homepage');
-    initializePhotoRotation(); // Initialize photo rotation on page load
+    initializeGridNavigation(); // Initialize grid navigation
 }); 
