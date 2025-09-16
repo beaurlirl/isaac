@@ -226,13 +226,11 @@ document.addEventListener('DOMContentLoaded', function() {
         'newcurrencyxbrl': {
             title: 'NEWCURRENCYxBRL',
             photos: [
+                'series/NEWCURRENCYxBRL/mainnewcurrency.JPG',
                 'series/NEWCURRENCYxBRL/DSCF3293.JPG',
-                'series/NEWCURRENCYxBRL/DSCF3319.JPG',
                 'series/NEWCURRENCYxBRL/DSCF3370.JPG',
                 'series/NEWCURRENCYxBRL/DSCF3405.jpg',
-                'series/NEWCURRENCYxBRL/DSCF3421.jpg',
-                'series/NEWCURRENCYxBRL/DSCF3550.JPG',
-                'series/NEWCURRENCYxBRL/DSCF3562.JPG'
+                'series/NEWCURRENCYxBRL/DSCF3550.JPG'
             ]
         },
         'rainy-sunday': {
@@ -344,6 +342,89 @@ document.addEventListener('DOMContentLoaded', function() {
         carouselNext.addEventListener('click', nextCarouselPhoto);
     }
     
+    // Touch/swipe support for carousel
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let touchStartY = 0;
+    let touchEndY = 0;
+    
+    if (carouselImage) {
+        carouselImage.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+        
+        carouselImage.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            
+            const deltaX = touchStartX - touchEndX;
+            const deltaY = touchStartY - touchEndY;
+            
+            // Only trigger swipe if horizontal movement is greater than vertical
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                // Minimum swipe distance
+                if (Math.abs(deltaX) > 50) {
+                    if (deltaX > 0) {
+                        // Swipe left - next photo
+                        nextCarouselPhoto();
+                    } else {
+                        // Swipe right - previous photo
+                        prevCarouselPhoto();
+                    }
+                }
+            }
+        }, { passive: true });
+        
+        // Prevent default touch behavior on carousel image
+        carouselImage.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        });
+    }
+    
+    // Mouse drag support for desktop
+    let isDragging = false;
+    let dragStartX = 0;
+    
+    if (carouselImage) {
+        carouselImage.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            dragStartX = e.clientX;
+            carouselImage.style.cursor = 'grabbing';
+            e.preventDefault();
+        });
+        
+        carouselImage.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+        });
+        
+        carouselImage.addEventListener('mouseup', function(e) {
+            if (!isDragging) return;
+            
+            const deltaX = dragStartX - e.clientX;
+            
+            if (Math.abs(deltaX) > 50) {
+                if (deltaX > 0) {
+                    nextCarouselPhoto();
+                } else {
+                    prevCarouselPhoto();
+                }
+            }
+            
+            isDragging = false;
+            carouselImage.style.cursor = 'grab';
+        });
+        
+        carouselImage.addEventListener('mouseleave', function() {
+            isDragging = false;
+            carouselImage.style.cursor = 'grab';
+        });
+        
+        // Set initial cursor
+        carouselImage.style.cursor = 'grab';
+    }
+    
     // Film page functionality
     const filmPhotos = document.querySelectorAll('.film-photo');
     filmPhotos.forEach(photo => {
@@ -352,8 +433,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const photoId = this.getAttribute('data-photo');
             
             if (collectionId) {
-                console.log(`Opening film collection: ${collectionId}`);
-                // Here you would open the film collection slider
+                if (photoCollections[collectionId]) {
+                    openCarousel(collectionId, 0);
+                } else {
+                    console.log(`Collection not found: ${collectionId}`);
+                }
             } else if (photoId) {
                 console.log(`Opening single photo: ${photoId}`);
                 // Here you would open the single photo view

@@ -838,6 +838,16 @@ body.homepage-active {
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: grab;
+}
+
+.carousel-image:active {
+    transform: scale(0.98);
 }
 
 .carousel-info {
