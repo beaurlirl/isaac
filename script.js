@@ -98,16 +98,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Grid Navigation Functions
     function initializeGridNavigation() {
         console.log('Initializing grid navigation, found items:', gridItems.length); // Debug log
-        gridItems.forEach(item => {
-            item.addEventListener('click', function() {
+        gridItems.forEach((item, index) => {
+            // Ensure the item is clickable
+            item.style.cursor = 'pointer';
+            
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
                 const target = this.getAttribute('data-target');
-                console.log('Grid item clicked, target:', target); // Debug log
+                console.log(`Grid item ${index} clicked, target:`, target); // Debug log
                 if (target) {
                     console.log('Navigating to page:', target); // Debug log
                     showPage(target);
                 } else {
                     console.log('No target found for grid item'); // Debug log
                 }
+            });
+            
+            // Add hover effect to make it clear it's clickable
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
             });
         });
     }
@@ -356,23 +370,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Touch/swipe support for carousel
-    let touchStartX = 0;
-    let touchEndX = 0;
-    let touchStartY = 0;
-    let touchEndY = 0;
+    let carouselTouchStartX = 0;
+    let carouselTouchEndX = 0;
+    let carouselTouchStartY = 0;
+    let carouselTouchEndY = 0;
     
     if (carouselImage) {
         carouselImage.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartY = e.changedTouches[0].screenY;
+            carouselTouchStartX = e.changedTouches[0].screenX;
+            carouselTouchStartY = e.changedTouches[0].screenY;
         }, { passive: true });
         
         carouselImage.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            touchEndY = e.changedTouches[0].screenY;
+            carouselTouchEndX = e.changedTouches[0].screenX;
+            carouselTouchEndY = e.changedTouches[0].screenY;
             
-            const deltaX = touchStartX - touchEndX;
-            const deltaY = touchStartY - touchEndY;
+            const deltaX = carouselTouchStartX - carouselTouchEndX;
+            const deltaY = carouselTouchStartY - carouselTouchEndY;
             
             // Only trigger swipe if horizontal movement is greater than vertical
             if (Math.abs(deltaX) > Math.abs(deltaY)) {
