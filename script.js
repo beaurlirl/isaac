@@ -97,11 +97,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Grid Navigation Functions
     function initializeGridNavigation() {
+        console.log('Initializing grid navigation, found items:', gridItems.length); // Debug log
         gridItems.forEach(item => {
             item.addEventListener('click', function() {
                 const target = this.getAttribute('data-target');
+                console.log('Grid item clicked, target:', target); // Debug log
                 if (target) {
+                    console.log('Navigating to page:', target); // Debug log
                     showPage(target);
+                } else {
+                    console.log('No target found for grid item'); // Debug log
                 }
             });
         });
