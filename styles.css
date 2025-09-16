@@ -215,6 +215,7 @@ body.homepage-active {
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
+    pointer-events: none;
 }
 
 .grid-item:hover .grid-item-overlay {
