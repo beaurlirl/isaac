@@ -313,17 +313,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Series page functionality
-    const seriesPreviews = document.querySelectorAll('.series-preview');
-    seriesPreviews.forEach(preview => {
-        preview.addEventListener('click', function() {
-            const seriesId = this.getAttribute('data-series');
-            if (photoCollections[seriesId]) {
-                openCarousel(seriesId, 0);
-            } else {
-                console.log(`Opening series: ${seriesId}`);
-            }
+    function initializeSeriesEventListeners() {
+        const seriesPreviews = document.querySelectorAll('.series-preview');
+        console.log('Found series previews:', seriesPreviews.length); // Debug log
+        seriesPreviews.forEach(preview => {
+            preview.addEventListener('click', function() {
+                const seriesId = this.getAttribute('data-series');
+                console.log('Clicked series:', seriesId); // Debug log
+                if (photoCollections[seriesId]) {
+                    console.log('Opening carousel for:', seriesId); // Debug log
+                    openCarousel(seriesId, 0);
+                } else {
+                    console.log(`Collection not found: ${seriesId}`);
+                }
+            });
         });
-    });
+    }
+    
+    // Initialize series event listeners
+    initializeSeriesEventListeners();
 
     // Carousel event listeners
     if (carouselClose) {
@@ -426,24 +434,32 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Film page functionality
-    const filmPhotos = document.querySelectorAll('.film-photo');
-    filmPhotos.forEach(photo => {
-        photo.addEventListener('click', function() {
-            const collectionId = this.getAttribute('data-collection');
-            const photoId = this.getAttribute('data-photo');
-            
-            if (collectionId) {
-                if (photoCollections[collectionId]) {
-                    openCarousel(collectionId, 0);
-                } else {
-                    console.log(`Collection not found: ${collectionId}`);
+    function initializeFilmEventListeners() {
+        const filmPhotos = document.querySelectorAll('.film-photo');
+        console.log('Found film photos:', filmPhotos.length); // Debug log
+        filmPhotos.forEach(photo => {
+            photo.addEventListener('click', function() {
+                const collectionId = this.getAttribute('data-collection');
+                const photoId = this.getAttribute('data-photo');
+                console.log('Clicked film photo:', collectionId || photoId); // Debug log
+                
+                if (collectionId) {
+                    if (photoCollections[collectionId]) {
+                        console.log('Opening film carousel for:', collectionId); // Debug log
+                        openCarousel(collectionId, 0);
+                    } else {
+                        console.log(`Collection not found: ${collectionId}`);
+                    }
+                } else if (photoId) {
+                    console.log(`Opening single photo: ${photoId}`);
+                    // Here you would open the single photo view
                 }
-            } else if (photoId) {
-                console.log(`Opening single photo: ${photoId}`);
-                // Here you would open the single photo view
-            }
+            });
         });
-    });
+    }
+    
+    // Initialize film event listeners
+    initializeFilmEventListeners();
     
     // Video page functionality
     const videoItems = document.querySelectorAll('.video-item');
