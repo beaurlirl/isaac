@@ -12,6 +12,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // Grid navigation data
     let touchStartX = 0;
     let touchEndX = 0;
+
+    function setInteractiveElement(element, onActivate, ariaLabel) {
+        if (!element) return;
+        element.style.cursor = 'pointer';
+        element.setAttribute('role', 'button');
+        element.setAttribute('tabindex', '0');
+        if (ariaLabel) {
+            element.setAttribute('aria-label', ariaLabel);
+        }
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            onActivate();
+        });
+        element.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onActivate();
+            }
+        });
+    }
     
     // Page Navigation Functions
     function showPage(pageId) {
@@ -97,29 +118,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Grid Navigation Functions
     function initializeGridNavigation() {
-        console.log('Initializing grid navigation, found items:', gridItems.length); // Debug log
-        gridItems.forEach((item, index) => {
-            // Ensure the item is clickable
-            item.style.cursor = 'pointer';
-            
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                const target = this.getAttribute('data-target');
-                console.log(`Grid item ${index} clicked, target:`, target); // Debug log
-                if (target) {
-                    console.log('Navigating to page:', target); // Debug log
-                    showPage(target);
-                } else {
-                    console.log('No target found for grid item'); // Debug log
-                }
-            });
-            
+        gridItems.forEach((item) => {
+            const target = item.getAttribute('data-target');
+            const title = item.querySelector('.grid-item-content h2');
+            const labelText = title ? title.textContent.trim() : '';
+            if (target) {
+                setInteractiveElement(
+                    item,
+                    () => showPage(target),
+                    labelText ? `Open ${labelText}` : 'Open section'
+                );
+            }
+
             // Add hover effect to make it clear it's clickable
             item.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-2px)';
             });
-            
+
             item.addEventListener('mouseleave', function() {
                 this.style.transform = 'translateY(0)';
             });
@@ -129,7 +144,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mobile Menu Functions
     function toggleMobileMenu() {
         mobileNav.classList.toggle('active');
-        
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.setAttribute(
+                'aria-expanded',
+                mobileNav.classList.contains('active') ? 'true' : 'false'
+            );
+        }
+
         // Animate hamburger menu
         const spans = mobileMenuBtn.querySelectorAll('span');
         if (mobileNav.classList.contains('active')) {
@@ -147,6 +169,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mobile menu toggle
     if (mobileMenuBtn) {
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        mobileMenuBtn.setAttribute('aria-controls', 'mobileNav');
+        mobileMenuBtn.setAttribute('aria-label', 'Toggle navigation menu');
         mobileMenuBtn.addEventListener('click', toggleMobileMenu);
     }
     
@@ -204,29 +229,29 @@ document.addEventListener('DOMContentLoaded', function() {
         'beelenyc2024': {
             title: 'BEÉLENYC2024',
             photos: [
-                'work/BEÉLENYC2024/DSCF5274-2.JPG',
-                'work/BEÉLENYC2024/DSCF5398.JPG',
-                'work/BEÉLENYC2024/DSCF5499.JPG',
-                'work/BEÉLENYC2024/DSCF5562.JPG',
-                'work/BEÉLENYC2024/DSCF5564.JPG',
-                'work/BEÉLENYC2024/DSCF5611.JPG',
-                'work/BEÉLENYC2024/DSCF5704.JPG',
-                'work/BEÉLENYC2024/DSCF5742.JPG'
+                'work/BEELENYC2024/DSCF5274-2.JPG',
+                'work/BEELENYC2024/DSCF5398.JPG',
+                'work/BEELENYC2024/DSCF5499.JPG',
+                'work/BEELENYC2024/DSCF5562.JPG',
+                'work/BEELENYC2024/DSCF5564.JPG',
+                'work/BEELENYC2024/DSCF5611.JPG',
+                'work/BEELENYC2024/DSCF5704.JPG',
+                'work/BEELENYC2024/DSCF5742.JPG'
             ]
         },
         'oncenotes': {
             title: 'ONCENOTES',
             photos: [
-                'work/ONCENOTES/Copia de DSCF3009 copia.jpg',
-                'work/ONCENOTES/Copia de DSCF3017 copia.jpg',
-                'work/ONCENOTES/Copia de DSCF7046.jpg',
-                'work/ONCENOTES/Copia de DSCF7088.jpg',
-                'work/ONCENOTES/Copia de DSCF7105.jpg',
-                'work/ONCENOTES/Copia de DSCF8010.jpg',
-                'work/ONCENOTES/Copia de DSCF8048.jpg',
-                'work/ONCENOTES/Copia de DSCF9005-2 copia.jpg',
-                'work/ONCENOTES/Copia de DSCF9008-2 copia.jpg',
-                'work/ONCENOTES/DSCF0005 copia.jpg'
+                'work/ONCENOTES/copia-de-dscf3009-copia.jpg',
+                'work/ONCENOTES/copia-de-dscf3017-copia.jpg',
+                'work/ONCENOTES/copia-de-dscf7046.jpg',
+                'work/ONCENOTES/copia-de-dscf7088.jpg',
+                'work/ONCENOTES/copia-de-dscf7105.jpg',
+                'work/ONCENOTES/copia-de-dscf8010.jpg',
+                'work/ONCENOTES/copia-de-dscf8048.jpg',
+                'work/ONCENOTES/copia-de-dscf9005-2-copia.jpg',
+                'work/ONCENOTES/copia-de-dscf9008-2-copia.jpg',
+                'work/ONCENOTES/dscf0005-copia.jpg'
             ]
         },
         'dannyocean': {
@@ -278,16 +303,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const carouselTitle = document.getElementById('carouselTitle');
     const carouselCounter = document.getElementById('carouselCounter');
 
+    // Video modal elements
+    const videoModal = document.getElementById('videoModal');
+    const videoOverlay = document.getElementById('videoOverlay');
+    const videoClose = document.getElementById('videoClose');
+    const videoPlayer = document.getElementById('videoPlayer');
+    const videoTitle = document.getElementById('videoTitle');
+    const videoDescription = document.getElementById('videoDescription');
+
     let currentCollection = null;
     let currentCarouselIndex = 0;
 
     // Carousel functions
     function openCarousel(collectionId, startIndex = 0) {
-        console.log('Opening carousel for:', collectionId, 'at index:', startIndex); // Debug log
-        
         currentCollection = photoCollections[collectionId];
         if (!currentCollection) {
-            console.error('Collection not found:', collectionId); // Debug log
             return;
         }
 
@@ -297,8 +327,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (carouselModal) {
             carouselModal.classList.add('active');
             document.body.style.overflow = 'hidden';
-        } else {
-            console.error('Carousel modal not found'); // Debug log
         }
     }
 
@@ -334,18 +362,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Series page functionality
     function initializeSeriesEventListeners() {
         const seriesPreviews = document.querySelectorAll('.series-preview');
-        console.log('Found series previews:', seriesPreviews.length); // Debug log
         seriesPreviews.forEach(preview => {
-            preview.addEventListener('click', function() {
-                const seriesId = this.getAttribute('data-series');
-                console.log('Clicked series:', seriesId); // Debug log
-                if (photoCollections[seriesId]) {
-                    console.log('Opening carousel for:', seriesId); // Debug log
-                    openCarousel(seriesId, 0);
-                } else {
-                    console.log(`Collection not found: ${seriesId}`);
-                }
-            });
+            const seriesId = preview.getAttribute('data-series');
+            const title = preview.querySelector('h2');
+            const labelText = title ? title.textContent.replace(/"/g, '').trim() : '';
+            if (photoCollections[seriesId]) {
+                setInteractiveElement(
+                    preview,
+                    () => openCarousel(seriesId, 0),
+                    labelText ? `Open series ${labelText}` : 'Open series'
+                );
+            }
         });
     }
     
@@ -455,39 +482,67 @@ document.addEventListener('DOMContentLoaded', function() {
     // Film page functionality
     function initializeFilmEventListeners() {
         const filmPhotos = document.querySelectorAll('.film-photo');
-        console.log('Found film photos:', filmPhotos.length); // Debug log
         filmPhotos.forEach(photo => {
-            photo.addEventListener('click', function() {
-                const collectionId = this.getAttribute('data-collection');
-                const photoId = this.getAttribute('data-photo');
-                console.log('Clicked film photo:', collectionId || photoId); // Debug log
-                
-                if (collectionId) {
-                    if (photoCollections[collectionId]) {
-                        console.log('Opening film carousel for:', collectionId); // Debug log
-                        openCarousel(collectionId, 0);
-                    } else {
-                        console.log(`Collection not found: ${collectionId}`);
-                    }
-                } else if (photoId) {
-                    console.log(`Opening single photo: ${photoId}`);
-                    // Here you would open the single photo view
-                }
-            });
+            const collectionId = photo.getAttribute('data-collection');
+            const title = photo.querySelector('h3');
+            const labelText = title ? title.textContent.replace(/"/g, '').trim() : '';
+            if (collectionId && photoCollections[collectionId]) {
+                setInteractiveElement(
+                    photo,
+                    () => openCarousel(collectionId, 0),
+                    labelText ? `Open collection ${labelText}` : 'Open collection'
+                );
+            }
         });
     }
     
     // Initialize film event listeners
     initializeFilmEventListeners();
     
+    function openVideoModal({ src, title, description }) {
+        if (!videoModal || !videoPlayer) return;
+        videoPlayer.src = src;
+        videoPlayer.load();
+        if (videoTitle) videoTitle.textContent = title || '';
+        if (videoDescription) videoDescription.textContent = description || '';
+        videoModal.classList.add('active');
+        videoModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        videoPlayer.play().catch(() => {});
+    }
+
+    function closeVideoModal() {
+        if (!videoModal || !videoPlayer) return;
+        videoPlayer.pause();
+        videoPlayer.removeAttribute('src');
+        videoPlayer.load();
+        videoModal.classList.remove('active');
+        videoModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
     // Video page functionality
     const videoItems = document.querySelectorAll('.video-item');
     videoItems.forEach(video => {
-        video.addEventListener('click', function() {
-            console.log('Playing video');
-            // Here you would implement video playback
-        });
+        const src = video.getAttribute('data-video');
+        const title = video.getAttribute('data-title') || '';
+        const description = video.getAttribute('data-description') || '';
+        if (src) {
+            setInteractiveElement(
+                video,
+                () => openVideoModal({ src, title, description }),
+                title ? `Play video ${title}` : 'Play video'
+            );
+        }
     });
+
+    if (videoClose) {
+        videoClose.addEventListener('click', closeVideoModal);
+    }
+
+    if (videoOverlay) {
+        videoOverlay.addEventListener('click', closeVideoModal);
+    }
     
     // Close mobile menu when clicking outside
     document.addEventListener('click', function(e) {
@@ -515,7 +570,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // ESC key to go back to homepage from any page
         if (e.key === 'Escape') {
             e.preventDefault();
-            if (carouselModal.classList.contains('active')) {
+            if (videoModal && videoModal.classList.contains('active')) {
+                closeVideoModal();
+            } else if (carouselModal.classList.contains('active')) {
                 closeCarousel();
             } else if (currentPage && currentPage.id !== 'homepage') {
                 showPage('homepage');
